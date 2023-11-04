@@ -2,7 +2,7 @@ import audioop
 import math
 import time
 
-import SpeakEasy.app.pkgs.speech_recognition as sr
+import SpeakEasy.app.pkgs_edited.speech_recognition as sr
 import pyaudio
 import soundmeter
 import librosa
