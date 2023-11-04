@@ -1,3 +1,4 @@
+<script src="https://apis.google.com/js/platform.js" async defer></script>
 function TTS(text, lang) {
     if(text === " "){
         return;
@@ -16,4 +17,13 @@ function TTS(text, lang) {
     speech.voice = voices[0];
     window.speechSynthesis.speak(speech);
 
+}
+function authenticate(){
+    window.onload = function () {
+    google.accounts.id.initialize({
+      client_id: 'YOUR_GOOGLE_CLIENT_ID',
+      callback: handleCredentialResponse
+    });
+    google.accounts.id.prompt();
+  };
 }
