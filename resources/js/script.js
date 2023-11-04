@@ -1,6 +1,6 @@
 // Code for the changing text at the top of the page
 const greetings = [
-    { text: "Unlock the World, One Language at a Time", color: "black" },
+    { text: "Unlock the World, One Language at a Time", color: "white" },
     { text: "Die Welt entdecken, eine Sprache nach der anderen", color: "blue" },
     { text: "Découvrez le monde, une langue à la fois", color: "red" },
     { text: "Descubre el mundo, un idioma a la vez", color: "green" }
