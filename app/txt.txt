@@ -1,0 +1,5 @@
+from SpeakEasy.app.speechrecog import LangRecog
+
+l = LangRecog()
+l.setLanguage("es_US")
+l.listen_and_transcribe()
