@@ -23,12 +23,16 @@ class LangRecog:
         microphone = sr.Microphone(0)
         with microphone as source:
             print("Listening for speech in other languages...")
+            recognizer.adjust_for_ambient_noise(source)
 
-        stop_listening = recognizer.listen_in_background(source=source, callback=self.callback)
-        time.sleep(4)
+        stop_listening = recognizer.listen_in_background(source=source, callback=self.callback, phrase_time_limit=10)
+        time.sleep(2)
         # Unregister the listener and stop the recognizer
         stop_listening(wait_for_stop=True)
-        time.sleep(5)
+        return self.text
 
     def setLanguage(self, lang):
         self.language = lang
+        
+caller = LangRecog()
+print(caller.listen_and_transcribe())
