@@ -49,4 +49,4 @@ def hi():
     print(l.listen_and_transcribe())
 
 
-hi()
+# hi()
