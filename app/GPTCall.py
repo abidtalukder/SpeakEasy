@@ -2,12 +2,12 @@ import openai
 
 
 class GPT:
-    def __init__(self):
+    def __init__(self, init_message):
         with open("API_KEY.txt") as mytxt:
             for line in mytxt:
                 print(line)
                 self.API_KEY = line
-                self.messages = messages = [ {"role": "system", "content": "You are a intelligent assistant."} ]
+                self.messages = init_message  # = [ {"role": "system", "content": "You are a intelligent assistant."} ]
 
     def makeCall(self, text, model, message):
         if message:
