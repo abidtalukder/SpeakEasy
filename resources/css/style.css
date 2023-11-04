@@ -71,4 +71,9 @@ footer a {
 
 #greeting {
     transition: color 1s;
+    font-size: 65px;
+    font-weight: bolder;
+    text-align: center;
+    padding-left: 150px;
+    padding-right: 150px;
 }
