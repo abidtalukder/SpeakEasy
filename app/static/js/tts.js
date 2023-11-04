@@ -1,4 +1,3 @@
-<script src="https://apis.google.com/js/platform.js" async defer></script>
 function TTS(text, lang) {
     if(text === " "){
         return;
@@ -6,14 +5,15 @@ function TTS(text, lang) {
     let speech = new SpeechSynthesisUtterance();
     speech.lang = lang;
     speech.text = text;
-    speech.rate = 2;
-    speech.pitch = 1;
+    speech.rate = 1;
+    speech.pitch = 0.8;
     let voices = []; // global array
 
       // Get List of Voices
     voices = window.speechSynthesis.getVoices();
 
       // Initially set the First Voice in the Array.
+    
     speech.voice = voices[0];
     window.speechSynthesis.speak(speech);
 
@@ -27,3 +27,7 @@ function authenticate(){
     google.accounts.id.prompt();
   };
 }
+
+document.getElementById("speech").addEventListener("click", function(){
+    TTS("Hola. Voy al supermercado. Ha sido un día divertido.", "es-ES");
+})
