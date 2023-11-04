@@ -1,0 +1,26 @@
+{
+  "name": "speakeasy",
+  "version": "1.0.0",
+  "description": "Foreign Language Speaking App",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abidtalukder/SpeakEasy.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/abidtalukder/SpeakEasy/issues"
+  },
+  "homepage": "https://github.com/abidtalukder/SpeakEasy#readme",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "dotenv": "^16.3.1",
+    "openai": "^4.15.0",
+    "readline-sync": "^1.4.10"
+  }
+}

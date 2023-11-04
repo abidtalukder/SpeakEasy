@@ -11,12 +11,13 @@ import string
 app = Flask(__name__)
 app.secret_key = os.urandom(16)
 
-if __name__ == "__main__":  # false if this file imported as module
-    # enable debugging, auto-restarting of server when this file is modified
-    app.debug = True
-    app.run()
-
 
 @app.route("/", methods=['GET', 'POST'])  # At the root, we just return the homepage
 def index():
     return render_template("index.html")
+
+
+if __name__ == "__main__":  # false if this file imported as module
+    # enable debugging, auto-restarting of server when this file is modified
+    app.debug = True
+    app.run()
