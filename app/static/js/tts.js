@@ -14,8 +14,10 @@ function TTS(text, lang) {
 
       // Initially set the First Voice in the Array.
     
-    speech.voice = voices[0];
-    window.speechSynthesis.speak(speech);
+    for(i = 0; i < voices.length; i++){
+        speech.voice = voices[i];
+        window.speechSynthesis.speak(speech);
+    }
 
 }
 function authenticate(){
