@@ -14,7 +14,7 @@ app.secret_key = os.urandom(16)
 
 @app.route("/", methods=['GET', 'POST'])  # At the root, we just return the homepage
 def index():
-    return render_template("index.html")
+    return render_template("speech.html")
 
 
 if __name__ == "__main__":  # false if this file imported as module
