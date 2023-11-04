@@ -9,7 +9,7 @@ body {
 }
 
 header {
-  background-color: #333;
+  background-color: white;
   color: #fff;
   display: flex;
   justify-content: space-between;
@@ -35,7 +35,8 @@ nav li {
 }
 
 nav a {
-  color: #fff;
+  color: #023E8A;
+  font-weight: bold;
   text-decoration: none;
 }
 
@@ -133,6 +134,9 @@ footer a {
   }
 
   #info{
-    width:49%;
-    float: right;
+    padding-left: 150px;
+    padding-right: 150px;
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 50px;
   }
