@@ -16,7 +16,6 @@ class LangRecog:
             print("Unrecognized")
 
     def __init__(self):
-        time.sleep(0.1)
         self.text = ""
         self.recognizer = sr.Recognizer()
         self.language = "en_US"
