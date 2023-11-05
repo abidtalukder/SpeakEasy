@@ -1,5 +1,5 @@
 body {
-    background: #f2f4f8;
+    background: #000000;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -9,8 +9,8 @@ body {
 }
 
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: #ffffff;
+    color: #323cf1;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -80,7 +80,10 @@ main {
     transform: translateY(-5px) scale(1.005) translateZ(0);
     box-shadow: 0 24px 36px rgba(0,0,0,0.11),
       0 24px 46px rgba(0,0,0,0.48);
+    background: #aee7ff; /* Change the background color to light blue when hovered */
 }
+
+
 
 .card:hover .overlay {
     transform: scale(4) translateZ(0);
