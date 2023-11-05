@@ -1,67 +1,25 @@
-<input type="text" id="blah" value="Hello world" display="hidden">
-<button id="speech">
-    Record
-</button>
+<input type="text" id="blah" value="Hello world" display="hidden" />
+<button id="speech">Record</button>
 
-<h1 id="convo">
-    
-</h1>
+<h1 id="convo"></h1>
 
-<script src="https://code.jquery.com/jquery-3.5.1.js"
-          integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-          crossorigin="anonymous">
-</script>
- 
+<script
+  src="https://code.jquery.com/jquery-3.5.1.js"
+  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+  crossorigin="anonymous"
+></script>
 
-<form action = "/" method = "POST">
-    <input type="text" name = "speech" id="latestUserSpeech" value="Hello world" display="hidden">
-    <input type="submit" value="Record Voice" name="sub1">
+<form action="/" method="POST">
+  <input
+    type="text"
+    name="speech"
+    id="latestUserSpeech"
+    value="Hello world"
+    display="hidden"
+  />
+  <input type="submit" value="Record Voice" name="sub1" />
 </form>
 
-<script type="text/javascript">
-    function updateText(val) {
-        document.getElementById('convo').innerHTML = val;
-        document.getElementById('latestUserSpeech').value = val;
-    }
-    
-    function getGPTResponse() {
-        $.ajax({
-            type:'POST',
-            url:'/gptResponse',
-            data: {
-                speech:$("#latestUserSpeech").val()
-            },
-            success:function(response)
-            {
-                if (response != "None") {
-                    updateText("GPT: " + response);
-                } else {
-                    updateText("Sorry, I didn't get that. Please record again.");
-                }
-            }
-        })
-    }
-    
-    $(document).on('click','#speech',function(e)
-                   {
-      console.log('hello');
-      e.preventDefault();
-      $.ajax({
-        type:'POST',
-        url:'/userResponse',
-        success:function(response)
-        {
-          if (response != "None") {
-            updateText(response);
-            getGPTResponse();
-          } else {
-            updateText("Sorry, I didn't get that. Please record again.");
-          }
-        }
-      })
-    });
-</script>
-
-{{ result }}
+<script src="../static/js/converse.js"></script>
 
 <!-- <script src="../static/js/tts.js"></script> -->

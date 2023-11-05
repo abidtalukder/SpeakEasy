@@ -72,12 +72,12 @@ def convertStringToList(dialogue):
     
     return conversation
 
-db = get_db()
-createTables(db)
+# db = get_db()
+# createTables(db)
 
-addConversation(db, "abidtalukder12@gmail.com", ["Hello", "How are you?"],80, "English", 1, "Greetings")
+# addConversation(db, "abidtalukder12@gmail.com", ["Hello", "How are you?"],80, "English", 1, "Greetings")
 
-print(fetchUserConversations(db, "abidtalukder12@gmail.com"))
+# print(fetchUserConversations(db, "abidtalukder12@gmail.com"))
 
 
 # DB_FILE = "P4.db"

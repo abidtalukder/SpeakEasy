@@ -51,6 +51,22 @@ gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, yo
 
 #     return wrapper
 
+@app.route("/conversations", methods=['GET', 'POST'])
+def addConversation():
+    if request.method == 'POST':
+        email = session["google_id"]
+        dialogue = request.form.get("dialogue")
+        grade = request.form.get("grade")
+        language = request.form.get("language")
+        level = request.form.get("level")
+        topic = request.form.get("topic")
+        
+        db.addConversation(db.get_db(), email, dialogue, grade, language, level, topic)
+        
+        return redirect("/conversations")
+    else:
+        return render_template("addConversation.html")
+
 @app.route("/userResponse", methods=['GET', 'POST'])
 def userResponse():
     speech, time = caller.listen_and_transcribe()
