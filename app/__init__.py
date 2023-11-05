@@ -217,14 +217,21 @@ def historyView():
     #print(conversation)
     dialogue = conversation[2]
     dialogue = unpack_conversation(dialogue)
+    tp = "Great Job!. Keep up the good work!"
+    
     score = conversation[3]
+    
+    if (score < 90):
+        tp = "Great Work. Here is vocabulary word bank you can use to improve your score:"
+    
+    score = str(score)
+    
     lang = conversation[5]
-    lvl = conversation[6]
+    lvl = str(conversation[6])
     tpc = conversation[7]
-    tp = ""
         
-    #return dialogue
-    return render_template("history_view.html", convo=dialogue, grade=score, language=lang, level=lvl, topic=tpc, tip = tp)
+    
+    return render_template("history_view.html", convo=dialogue, grade=score, language=lang, level=lvl, topic=tpc, tip = tp, link="Google.com")
     
     #return redirect("/speech")
 
