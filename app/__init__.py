@@ -173,8 +173,9 @@ def endConversation():
 
         # text = gpt2.makeCall("gpt-4", speech)
         score = gpt.score()
+        topic = str(gpt2.makeCall("gpt-4", speech))
         
-        db.addConversation(database, session["email"], speech, score, "English", 1, "Greetings")
+        db.addConversation(database, session["email"], speech, score, "English", 1,topic )
         print(db.fetchUserConversations(database, session["email"]))
 
     return render_template("chat2.html")
@@ -241,15 +242,19 @@ def historyView():
         tp = "Great Job!. Keep up the good work!"
     
         score = conversation[3]
-    
+        link = ""
         if (score < 90):
             tp = "Great Work. Here is vocabulary word bank you can use to improve your score:"
+            link=db.searchVocabulary(database, conversation[5], conversation[7])
+            
     
         score = str(score)
     
         lang = conversation[5]
         lvl = str(conversation[6])
         tpc = conversation[7]
+        
+        
         
     
         return render_template("history_view.html", convo=dialogue, grade=score, language=lang, level=lvl, topic=tpc, tip = tp, link="Google.com")
