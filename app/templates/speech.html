@@ -1,25 +1,66 @@
-<input type="text" id="blah" value="Hello world" display="hidden" />
-<button id="speech">Record</button>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"
+    />
+  </head>
+  <body>
+    <header>
+      <div class="">
+        <a href=""><img src="../static/logo.png" height="120px"></a>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#info">About</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="#login">Dashboard</a></li>
+        </ul>
+      </nav>
+      <div class="signup">
+        <a href="/signup">Sign Up</a>
+      </div>
+    </header>
+    <input type="text" id="blah" value="Hello world" display="hidden" />
+    <button id="speech">Record</button>
 
-<h1 id="convo"></h1>
+    <h1 id="convo"></h1>
 
-<script
-  src="https://code.jquery.com/jquery-3.5.1.js"
-  integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-  crossorigin="anonymous"
-></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.js"
+      integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+      crossorigin="anonymous"
+    ></script>
 
-<form action="/" method="POST">
-  <input
-    type="text"
-    name="speech"
-    id="latestUserSpeech"
-    value="Hello world"
-    display="hidden"
-  />
-  <input type="submit" value="Record Voice" name="sub1" />
-</form>
+    <form action="/" method="POST">
+      <input
+        type="text"
+        name="speech"
+        id="latestUserSpeech"
+        value="Hello world"
+        display="hidden"
+      />
+      <input type="submit" value="Record Voice" name="sub1" />
+    </form>
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2023 SpeakEasy</p>
+      </div>
+    </footer>
+  </body>
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2023 SpeakEasy</p>
+    </div>
+  </footer>
+</body>
 
 <script src="../static/js/converse.js"></script>
 
-<!-- <script src="../static/js/tts.js"></script> -->
+
+  <!-- <script src="../static/js/tts.js"></script> -->
+</html>
