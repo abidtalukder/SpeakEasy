@@ -1,4 +1,4 @@
-body {
+.custom-body {
     background-image: url('../nasa-Q1p7bh3SHj8-unsplash.jpg');
     background-size: cover;
     /* background-color: black; */
@@ -10,6 +10,10 @@ body {
   font-size: 20px;
 }
 
+body{
+  font-family: Poppins;
+  text-align: center;
+}
 .content{
     background-color: rgba(0, 0, 0, 0.507);
 }
