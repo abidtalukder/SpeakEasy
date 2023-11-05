@@ -38,8 +38,8 @@ flow = Flow.from_client_secrets_file(
     redirect_uri="http://localhost/callback"
 )
 
-caller = recorder.LangRecog("es_US")
-lang = "Spanish"
+caller = recorder.LangRecog("en_US")
+lang = "English"
 gpt = GPT([{"role": "assistant", "content": "You are a coach helping a student learn a new language. Converse with "
                                             "them in " + lang + " in 1 sentence long responses. Tell the user when "
                                                                 "they say something incorrect and also tell them to "
@@ -218,12 +218,14 @@ def speech():
         lang = request.form.get("languageForm")
         lvl = request.form.get("levelForm")
         caller.setLanguage(language_to_iso_tag(lang))
+        global gpt
         gpt = GPT(
             [{"role": "assistant", "content": "You are a coach helping a student learn a new language. Converse with "
                                               "them in " + lang + " in 1 sentence long responses. Tell the user when "
                                                                   "they say something incorrect and also tell them to "
                                                                   "only speak in " + lang + " when they say somthing in "
                                                                                             "a different language"}])
+        global gpt2
         gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, you have to give me a 1 word topic (no "
                                                "extra text) for"
                                                "the current topic in the conversation that it falls under. Choose "
