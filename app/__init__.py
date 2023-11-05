@@ -7,6 +7,7 @@ import os
 import datetime
 import random
 import string
+import speechrecog as recorder
 from GPTCall import GPT
 import db
 
@@ -32,6 +33,14 @@ flow = Flow.from_client_secrets_file(
     redirect_uri="http://localhost/callback"
 )
 
+caller = recorder.LangRecog("en_US")
+lang = "English"
+gpt = GPT([{"role": "assistant", "content": "You are a coach helping a studnet learn a new language. Converse with "
+                                            "them in " + lang + " in 1 sentence long responses. Tell the user when "
+                                                                "they say something incorrect"}])
+gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, you have to give me a 1 word topic for "
+                                             "the whole conversation that it falls under."}])
+
 
 # def login_is_required(function):
 #     def wrapper(*args, **kwargs):
@@ -42,9 +51,25 @@ flow = Flow.from_client_secrets_file(
 
 #     return wrapper
 
+@app.route("/userResponse", methods=['GET', 'POST'])
+def userResponse():
+    speech, time = caller.listen_and_transcribe()
+    
+    if (speech == None):
+        return "None"
+    
+    text = "GPT RESPONSE" #gpt.makeCall("gpt-4", speech)
+    #gpt2.makeCall("gpt-4", speech)
+    return speech
+
+@app.route("/gptResponse", methods=['GET', 'POST'])
+def gptResponse():
+    
+
 @app.route("/", methods=['GET', 'POST'])  # At the root, we just return the homepage
 def index():
-    return render_template("index.html")
+    # return render_template("index.html")
+    return redirect("/speech")
 
 @app.route("/login")
 def login():
@@ -60,7 +85,13 @@ def callback2():
     
     return render_template("speech.html", name=session['name'])
 
-
+@app.route("/speech", methods=['GET', 'POST'])
+def speech():
+    if request.method == 'POST':
+        session['name'] = request.form['name']
+        return render_template("speech.html", name=session['name'])
+    else:
+        return render_template("speech.html")
 @app.route("/callback")
 def callback():
     flow.fetch_token(authorization_response=request.url)

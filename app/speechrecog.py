@@ -1,6 +1,6 @@
 import time
 
-import SpeakEasy.app.pkgs_edited.speech_recognition as sr
+import pkgs_edited.speech_recognition as sr
 
 
 class LangRecog:
