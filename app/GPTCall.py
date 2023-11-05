@@ -24,6 +24,19 @@ class GPT:
         else:
             Exception("Please put in a message")
 
+    def score(self):
+        self.messages.append(
+            {"role": "user", "content": "Respond to this only in a single number, no extra text: Grade this "
+                                        "conversation out of 100 in the user's fluency with this language"},
+        )
+        chat = openai.chat.completions.create(
+            model="gpt-4", messages=self.messages
+        )
+        reply = chat.choices[0].message.content
+        print(f"ChatGPT: {reply}")
+        self.messages.append({"role": "assistant", "content": reply})
+        return int(reply)
+
 
 def hi():
     g = GPT([{"role": "system", "content": "You are a intelligent assistant."}])
