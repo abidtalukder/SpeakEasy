@@ -32,11 +32,6 @@
         </div>
         <nav>
           <ul>
-  
-  
-            <form action="/">
-              <form action="/history"</form>
-              <form action="/speech"</form>
                 
             <li> <form action="/">
               <input type="submit" class="" value="Home">
@@ -50,16 +45,11 @@
             </li>
            
             <li>
-              <form action="/Speech">
+              <form action="/speech">
                 <input type="submit" class="" value="Speech">
               </form>
             </li>
-           
-            <form action="/Speech">
-              <input type="submit" class="" value="Speech">
-            </form>
-           
-            
+              
           </ul>
         </nav>
         <div class="signup">
@@ -87,37 +77,11 @@
                 </div>
         </div>
     {% endfor %}
-        <div class="row justify-content-center">
-            {% for j in range(len(conversations) - (len(conversations) // 4)) %}
-                <div class="card" style="width: 18rem; margin: 1%">
-                  <div class="card-body">
-                    <h5 class="card-title">{{ conversation[len(conversations)-j].date }}</h5>
-                      <div>
-                          <div class="circle_enc justify-content-evenly" style="margin-left: 25%">
-                             <p style="position:relative; font-size: xx-large; top: 23px">{{ conversation[len(conversations)-j].score }}</p>
-                          </div>
-                      </div>
-
-                    <p class="card-text text-xxl-center">{{ conversation[len(conversations)-j].lang }}</p>
-                    <a href="{{ conversation[len(conversations)-j].link }}" class="btn btn-primary">View</a>
-                  </div>
-                </div>
-            {% endfor %}
-        </div>
-
-<<<<<<< HEAD
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
-        </div>
-    </div>
+      
     <footer>
       <div class="footer-content">
         <p>&copy; 2023 SpeakEasy</p>
       </div>
     </footer>
-=======
->>>>>>> 69ecca560544b75502698ffb93ad9f0b3179f39d
->>>>>>> refs/remotes/origin/main
 </body>
 </html>
