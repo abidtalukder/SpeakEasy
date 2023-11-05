@@ -73,6 +73,18 @@ gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, yo
 #         return redirect("/conversations")
 #     else:
 #         return render_template("addConversation.html")
+def language_to_iso_tag(language_string):
+    language_code = ""
+    if language_string == "English":
+        language_code = "en_US"
+    elif language_string == "Hindi":
+        language_code = "hi_IN"
+    elif language_string == "French":
+        language_code = "fr_FR"
+    elif language_string == "Portuguese":
+        language_code = "pt_BR"
+
+    return language_code
 
 @app.route("/userResponse", methods=['GET', 'POST'])
 def userResponse():
@@ -143,7 +155,13 @@ def speech():
         
         lang = request.form.get("languageForm")
         lvl = request.form.get("levelForm")
-        
+        caller.setLanguage(language_to_iso_tag(lang))
+        gpt = GPT(
+            [{"role": "assistant", "content": "You are a coach helping a student learn a new language. Converse with "
+                                              "them in " + lang + " in 1 sentence long responses. Tell the user when "
+                                                                  "they say something incorrect and also tell them to "
+                                                                  "only speak in " + lang + " when they say somthing in "
+                                                                                            "a different language"}])
         print("Language: " + lang)
         print("Level: " + lvl)
         
