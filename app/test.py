@@ -1,25 +1,19 @@
-import pyaudio
-import wave
+from bs4 import BeautifulSoup
+import requests
 
-# initialize the pyaudio object
-p = pyaudio.PyAudio()
+search = 'your search terms here.'
+url = 'https://www.google.com/search?q=spanish topic greetings'
 
-# open the microphone stream
-stream = p.open(format=pyaudio.paInt16, channels=1, rate=44100, input=True, frames_per_buffer=1024)
+headers = {
+    'Accept': '*/*',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82',
+}
+parameters = {'q': search}
 
-# start recording
-frames = []
-while True:
-    # read the audio data
-    data = stream.read(1024)
-    # add the data to the frames list
-    frames.append(data)
-    print(len(frames))
-    # check if the user has stopped speaking
-    if len(frames) > 1000:
-        break
+content = requests.get(url, headers=headers, params=parameters).text
+soup = BeautifulSoup(content, 'html.parser')
 
-# stop recording
-stream.stop_stream()
-stream.close()
+search = soup.find(id='search')
+first_link = search.find('a')
 
+print(first_link['href'])

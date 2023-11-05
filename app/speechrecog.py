@@ -6,7 +6,7 @@ import pkgs_edited.speech_recognition as sr
 class LangRecog:
     def callback(self, recog, audio):
         try:
-            self.time = time.time()-self.time
+            self.time = time.time() - self.time
             recognized_text = recog.recognize_google(audio, language=self.language, show_all=False)
             print("You said: " + recognized_text)
             self.text = recognized_text
@@ -17,6 +17,7 @@ class LangRecog:
             return
         else:
             print("")
+
     def __init__(self, lang):
         self.text = ""
         self.recognizer = sr.Recognizer()
@@ -40,11 +41,14 @@ class LangRecog:
     def setLanguage(self, lang):
         self.language = lang
 
+    def calculateDensityScore(self):
+        splitted_string = self.text.split(" ")
+        return float(len(splitted_string)) / self.time
+
 
 def hi():
     l = LangRecog("es_US")
     l.listen_and_transcribe()
     return
-
 
 # hi()
