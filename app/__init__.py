@@ -51,21 +51,21 @@ gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, yo
 
 #     return wrapper
 
-@app.route("/conversations", methods=['GET', 'POST'])
-def addConversation():
-    if request.method == 'POST':
-        email = session["google_id"]
-        dialogue = request.form.get("dialogue")
-        grade = request.form.get("grade")
-        language = request.form.get("language")
-        level = request.form.get("level")
-        topic = request.form.get("topic")
+# @app.route("/conversations", methods=['GET', 'POST'])
+# def addConversation():
+#     if request.method == 'POST':
+#         email = session["google_id"]
+#         dialogue = request.form.get("dialogue")
+#         grade = request.form.get("grade")
+#         language = request.form.get("language")
+#         level = request.form.get("level")
+#         topic = request.form.get("topic")
         
-        db.addConversation(db.get_db(), email, dialogue, grade, language, level, topic)
+#         db.addConversation(db.get_db(), email, dialogue, grade, language, level, topic)
         
-        return redirect("/conversations")
-    else:
-        return render_template("addConversation.html")
+#         return redirect("/conversations")
+#     else:
+#         return render_template("addConversation.html")
 
 @app.route("/userResponse", methods=['GET', 'POST'])
 def userResponse():
@@ -115,9 +115,11 @@ def callback2():
 def speech():
     if request.method == 'POST':
         session['name'] = request.form['name']
-        return render_template("speech.html", name=session['name'])
+        return render_template("chat2.html")
     else:
-        return render_template("speech.html")
+        return render_template("chat2.html")
+    
+    
 @app.route("/callback")
 def callback():
     flow.fetch_token(authorization_response=request.url)
