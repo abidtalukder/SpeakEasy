@@ -149,8 +149,10 @@ function refreshPage() {
     languageForm = document.getElementById("languageForm");
     levelForm = document.getElementById("levelForm");
     
-    level = document.getElementById("level").value;
-    language = document.getElementById("language").value;
+    level = document.getElementById("level").innerHTML;
+    language = document.getElementById("language").innerHTML;
+    //console.log("LEVEL:" + level);
+    //console.log("LANGUAGE:" + language)
     
     languageForm.value = language;
     levelForm.value = level;
@@ -161,7 +163,7 @@ function refreshPage() {
 // Replace the existing element with the newly created one
 
 function updateLevels() {
-    languageDropdown = document.getElementById('level');
+    levelDropdown = document.getElementById('level');
     const languageOptions = document.getElementById('levelOptions');
     if (languageOptions) {
       // Get all li elements inside the ul
@@ -170,8 +172,9 @@ function updateLevels() {
       for (let i = 0; i < liElements.length; i++) {
         liElements[i].addEventListener('click', function(event) {
           // Do something when an li element is clicked
-          languageDropdown.innerHTML = liElements[i].innerHTML;
-        refreshPage();
+          aElement = liElements[i].getElementsByTagName('a')[0];
+          levelDropdown.innerHTML = aElement.innerHTML;
+          refreshPage();
           // Add your logic for handling the click event here
         });
       }
@@ -188,8 +191,9 @@ function updateLanguages() {
       for (let i = 0; i < liElements.length; i++) {
         liElements[i].addEventListener('click', function(event) {
           // Do something when an li element is clicked
-          languageDropdown.innerHTML = liElements[i].innerHTML;
-        refreshPage();
+          aElement = liElements[i].getElementsByTagName('a')[0];
+          languageDropdown.innerHTML = aElement.innerHTML;
+          refreshPage();
           // Add your logic for handling the click event here
         });
       }
