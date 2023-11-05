@@ -10,6 +10,7 @@ import string
 import speechrecog as recorder
 from GPTCall import GPT
 import db
+from db import get_db, fetchUserConversations
 
 from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
@@ -270,6 +271,13 @@ def callback():
 def logout():
     session.clear()
     return redirect("/")
+
+@app.route('/')
+def index():
+    db = get_db()
+    email = 'abidtalukder12@email.com'
+    conversations = fetchUserConversations(db, email)
+    return render_template('History.html', conversations=conversations)
 
 
 if __name__ == "__main__":  # false if this file imported as module
