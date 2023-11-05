@@ -92,7 +92,7 @@ function createBotMessageElement(message) {
     // Create the paragraph inside the card body
     var bodyPara = document.createElement('p');
     bodyPara.className = 'mb-0';
-    bodyPara.textContent = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+    bodyPara.textContent = message;
 
     // Construct the element hierarchy
     cardHeader.appendChild(titlePara);
