@@ -46,9 +46,13 @@ gpt = GPT([{"role": "assistant", "content": "You are a coach helping a student l
                                                                 "only speak in " + lang + " when they say somthing in "
                                                                                           "a different language"}])
 
-gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, you have to give me a 1 word topic for "
-                                             "the whole conversation that it falls under."}])
-
+gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, you have to give me a 1 word topic (no "
+                                               "extra text) for"
+                                               "the current topic in the conversation that it falls under. Choose "
+                                               "from the following:"
+                                               "-Introductions -Travel -Food -Shopping -Family -Hobbies -Routine "
+                                               "-Health -Work"
+                                               "-Culture"}])
 
 # def login_is_required(function):
 #     def wrapper(*args, **kwargs):
@@ -203,6 +207,13 @@ def speech():
                                                                   "they say something incorrect and also tell them to "
                                                                   "only speak in " + lang + " when they say somthing in "
                                                                                             "a different language"}])
+        gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, you have to give me a 1 word topic (no "
+                                               "extra text) for"
+                                               "the current topic in the conversation that it falls under. Choose "
+                                               "from the following:"
+                                               "-Introductions -Travel -Food -Shopping -Family -Hobbies -Routine "
+                                               "-Health -Work"
+                                               "-Culture"}])
         print("Language: " + lang)
         print("Level: " + lvl)
         
