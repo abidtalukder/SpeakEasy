@@ -35,9 +35,12 @@ flow = Flow.from_client_secrets_file(
 
 caller = recorder.LangRecog("en_US")
 lang = "English"
-gpt = GPT([{"role": "assistant", "content": "You are a coach helping a studnet learn a new language. Converse with "
+gpt = GPT([{"role": "assistant", "content": "You are a coach helping a student learn a new language. Converse with "
                                             "them in " + lang + " in 1 sentence long responses. Tell the user when "
-                                                                "they say something incorrect"}])
+                                                                "they say something incorrect and also tell them to "
+                                                                "only speak in " + lang + " when they say somthing in "
+                                                                                          "a different language"}])
+
 gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, you have to give me a 1 word topic for "
                                              "the whole conversation that it falls under."}])
 
