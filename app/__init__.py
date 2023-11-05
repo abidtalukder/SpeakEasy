@@ -92,6 +92,18 @@ def sanitize_conversation(conversation):
     for line in conversation:
         if (line["message"] == ""):
             conversation.remove(line)
+            
+def unpack_history(history):
+    my_history = []
+    
+    for line in history:
+        my_history.append({
+            "id":line[1],
+            "score":str(line[3]),
+            "date":line[4],
+            "language":line[5],
+        })
+    return my_history
 
 def unpack_conversation(conversation):
     #conversation = conversation[0:len(conversation)-2]
@@ -112,10 +124,7 @@ def unpack_conversation(conversation):
                 my_conversation.append({
                 "sender": "BOT",
                 "message": remove_substring(line, "(BOT)")
-                })
-            
-        
-    
+                })    
     return my_conversation
 
 def language_to_iso_tag(language_string):
@@ -223,29 +232,29 @@ def speech():
 
 @app.route("/historyView",methods=['GET', 'POST'])
 def historyView():
-    # if (method == 'POST'):
-    id = "827861"
-    conversation = db.fetchConversationById(database, id)[0]
-    #print(conversation)
-    dialogue = conversation[2]
-    dialogue = unpack_conversation(dialogue)
-    tp = "Great Job!. Keep up the good work!"
+    if (request.method == 'POST'):
+        id = request.form.get("id")
+        conversation = db.fetchConversationById(database, id)[0]
+        #print(conversation)
+        dialogue = conversation[2]
+        dialogue = unpack_conversation(dialogue)
+        tp = "Great Job!. Keep up the good work!"
     
-    score = conversation[3]
+        score = conversation[3]
     
-    if (score < 90):
-        tp = "Great Work. Here is vocabulary word bank you can use to improve your score:"
+        if (score < 90):
+            tp = "Great Work. Here is vocabulary word bank you can use to improve your score:"
     
-    score = str(score)
+        score = str(score)
     
-    lang = conversation[5]
-    lvl = str(conversation[6])
-    tpc = conversation[7]
+        lang = conversation[5]
+        lvl = str(conversation[6])
+        tpc = conversation[7]
         
     
-    return render_template("history_view.html", convo=dialogue, grade=score, language=lang, level=lvl, topic=tpc, tip = tp, link="Google.com")
+        return render_template("history_view.html", convo=dialogue, grade=score, language=lang, level=lvl, topic=tpc, tip = tp, link="Google.com")
     
-    #return redirect("/speech")
+    return redirect("/speech")
 
 @app.route("/callback")
 def callback():
@@ -283,12 +292,22 @@ def logout():
     session.clear()
     return redirect("/")
 
-@app.route('/')
-def index():
-    db = get_db()
-    email = 'abidtalukder12@email.com'
-    conversations = fetchUserConversations(db, email)
-    return render_template('History.html', conversations=conversations)
+# @app.route('/')
+# def index():
+#     db = get_db()
+#     email = 'abidtalukder12@email.com'
+#     conversations = fetchUserConversations(db, email)
+#     return render_template('Hisdetory.html', conversations=conversations)
+
+@app.route("/history", methods=['GET', 'POST'])
+def history():
+    conversations = db.fetchUserConversations(database, "abidtalukder12@gmail.com")
+    convos = (unpack_history(conversations))
+    return render_template("History.html", conversations=convos)
+    
+    
+
+
 
 
 if __name__ == "__main__":  # false if this file imported as module

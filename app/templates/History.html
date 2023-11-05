@@ -41,42 +41,26 @@
             <a href="#">Sign Up</a>
         </div>
     </header>
-    {% for i in range(len(conversations) // 4) %}
+    {% for conversation in (conversations) %}
         <div class="row justify-content-center">
-            {% for j in range(4) %}
                 <div class="card" style="width: 18rem; margin: 1%">
                   <div class="card-body">
-                    <h5 class="card-title">{{ conversation[(4*i) + j].date }}</h5>
+                    <h5 class="card-title">{{ conversation.date }}</h5>
                       <div>
                           <div class="circle_enc justify-content-evenly" style="margin-left: 25%">
-                             <p style="position:relative; font-size: xx-large; top: 23px">{{ conversation[(4*i) + j].score }}</p>
+                             <p style="position:relative; font-size: xx-large; top: 23px">{{ conversation.score }}</p>
                           </div>
                       </div>
 
-                    <p class="card-text text-xxl-center">{{ conversation[(4*i) + j].lang }}</p>
-                    <a href="{{ conversation[(4*i) + j].link }}" class="btn btn-primary">View</a>
+                    <p class="card-text text-xxl-center">{{ conversation.lang }}</p>
+<!-- <p class="card-text text-xxl-center">{{ conversation.level }}</p> -->
+                    <form action="/historyView" method="POST">
+                      <input style="display: none;" type="text" name="id" value="{{conversation.id}}">
+                      <input class="btn btn-primary" type="submit" value="View" name="convo">
+                    </form>
                   </div>
                 </div>
-            {% endfor %}
         </div>
     {% endfor %}
-        <div class="row justify-content-center">
-            {% for j in range(len(conversations) - (len(conversations) // 4)) %}
-                <div class="card" style="width: 18rem; margin: 1%">
-                  <div class="card-body">
-                    <h5 class="card-title">{{ conversation[len(conversations)-j].date }}</h5>
-                      <div>
-                          <div class="circle_enc justify-content-evenly" style="margin-left: 25%">
-                             <p style="position:relative; font-size: xx-large; top: 23px">{{ conversation[len(conversations)-j].score }}</p>
-                          </div>
-                      </div>
-
-                    <p class="card-text text-xxl-center">{{ conversation[len(conversations)-j].lang }}</p>
-                    <a href="{{ conversation[len(conversations)-j].link }}" class="btn btn-primary">View</a>
-                  </div>
-                </div>
-            {% endfor %}
-        </div>
-
 </body>
 </html>
