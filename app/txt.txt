@@ -7,3 +7,15 @@ l.listen_and_transcribe()
 
 message = [ {"role": "system", "content": "You are a intelligent assistant."} ]
 gpt = GPT(
+
+gpt = GPT([{"role": "assistant", "content": "You are a coach helping a studnet learn a new language. Converse with "
+                                            "them in " + lang + " in 1 sentence long responses. Tell the user when "
+                                                                "they say something incorrect"}])
+gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, you have to give me a 1 word topic for "
+                                             "the whole conversation that it falls under."}])
+
+
+caller = recorder.LangRecog("en_US")
+        text = caller.listen_and_transcribe()
+
+        print(gpt.makeCall(message=text, model="gpt-4"))
