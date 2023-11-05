@@ -20,13 +20,19 @@ def createTables(db):
     c.execute("""CREATE TABLE IF NOT EXISTS conversations(email TEXT, id INTEGER, dialogue TEXT, grade INTEGER, datetime TEXT, language TEXT, level INTEGER, topic TEXT)""")
     c.execute("""CREATE TABLE IF NOT EXISTS vocabulary(language TEXT, topic TEXT, url TEXT)""")
     populateVocabularyTable(db)
+    fetchAllVocabulary()
     
 def read_file_and_parse(filename):
     result = []
     with open(filename, 'r') as file:
         for line in file:
             # Split each line by the specified delimiter '~'
-            data = line.split('~')
+            line.replace('\n', '')
+            data = line.split('*')
+            if data[0] == ['\n']:
+                continue
+            for (line) in data:
+                line.replace('\n', '')
             
             # Append the split data as a list to the result list
             result.append(data)
@@ -49,8 +55,8 @@ def populateVocabularyTable(db):
         vocabulary = read_file_and_parse("LinkData.txt")
         
         for line in vocabulary:
-            print(line)
-            #createVocabularyEntry(db, line[0][0], line[1], line[2])
+            #print(line)
+            createVocabularyEntry(db, line[0], line[1], line[2])
 
 def searchVocabulary(db, lang, topic):
     c = db.cursor()
