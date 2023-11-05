@@ -74,6 +74,46 @@ gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, yo
 #         return redirect("/conversations")
 #     else:
 #         return render_template("addConversation.html")
+def remove_substring(main_string, substring):
+    # Check if the substring is in the main string
+    if substring in main_string:
+        # Replace the substring with an empty string
+        modified_string = main_string.replace(substring, '')
+        return modified_string
+    else:
+        # If the substring is not found in the main string, return the original string
+        return main_string
+
+def sanitize_conversation(conversation):
+    for line in conversation:
+        if (line["message"] == ""):
+            conversation.remove(line)
+
+def unpack_conversation(conversation):
+    #conversation = conversation[0:len(conversation)-2]
+    conversation = conversation.split("~")
+    my_conversation = []
+    
+    for line in conversation:
+        if (line.find("(USER)") != -1):
+            message = remove_substring(line, "(USER)")
+            if (message != ""):
+                my_conversation.append({
+                "sender": "USER",
+                "message": remove_substring(line, "(USER)")
+                })
+        else:
+            message = remove_substring(line, "(BOT)")
+            if (message != ""):
+                my_conversation.append({
+                "sender": "BOT",
+                "message": remove_substring(line, "(BOT)")
+                })
+            
+        
+    
+    return my_conversation
+
 def language_to_iso_tag(language_string):
     language_code = ""
     if language_string == "English":
@@ -170,6 +210,31 @@ def speech():
     else:
         return render_template("chat2.html", language="English", level="1")
 
+@app.route("/historyView",methods=['GET', 'POST'])
+def historyView():
+    # if (method == 'POST'):
+    id = "827861"
+    conversation = db.fetchConversationById(database, id)[0]
+    #print(conversation)
+    dialogue = conversation[2]
+    dialogue = unpack_conversation(dialogue)
+    tp = "Great Job!. Keep up the good work!"
+    
+    score = conversation[3]
+    
+    if (score < 90):
+        tp = "Great Work. Here is vocabulary word bank you can use to improve your score:"
+    
+    score = str(score)
+    
+    lang = conversation[5]
+    lvl = str(conversation[6])
+    tpc = conversation[7]
+        
+    
+    return render_template("history_view.html", convo=dialogue, grade=score, language=lang, level=lvl, topic=tpc, tip = tp, link="Google.com")
+    
+    #return redirect("/speech")
 
 @app.route("/callback")
 def callback():
