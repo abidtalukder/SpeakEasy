@@ -38,19 +38,13 @@ flow = Flow.from_client_secrets_file(
     redirect_uri="http://localhost/callback"
 )
 
-caller = recorder.LangRecog("en_US")
-lang = "English"
-gpt = GPT(
-            [{"role": "assistant", "content": "You are a coach helping a student learn a new language. Converse with "
-                                              "them in " + lang + " in 1 sentence long responses. Tell the user when "
-                                                                  "they have incorrect grammar or wording (say what "
-                                                                  "they said wrong IN ENGLISH) and also tell them to"
-                                                                  "only speak in " + lang + "when they say something in"
-                                                                                            "a different language. "
-                                                                                            "When they say something "
-                                                                                            "wromng, tell them what "
-                                                                                            "they should have said "
-                                                                                            "instead."}])
+caller = recorder.LangRecog("es_US")
+lang = "Spanish"
+gpt = GPT([{"role": "assistant", "content": "You are a coach helping a student learn a new language. Converse with "
+                                            "them in " + lang + " in 1 sentence long responses. Tell the user when "
+                                                                "they say something incorrect and also tell them to "
+                                                                "only speak in " + lang + " when they say somthing in "
+                                                                                          "a different language"}])
 
 gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, you have to give me a 1 word topic (no "
                                                "extra text) for"
@@ -98,12 +92,24 @@ def sanitize_conversation(conversation):
     for line in conversation:
         if (line["message"] == ""):
             conversation.remove(line)
+            
+def unpack_history(history):
+    my_history = []
+    
+    for line in history:
+        my_history.append({
+            "id":line[1],
+            "score":str(line[3]),
+            "date":line[4],
+            "language":line[5],
+        })
+    return my_history
 
 def unpack_conversation(conversation):
     #conversation = conversation[0:len(conversation)-2]
     conversation = conversation.split("~")
     my_conversation = []
-
+    
     for line in conversation:
         if (line.find("(USER)") != -1):
             message = remove_substring(line, "(USER)")
@@ -118,10 +124,7 @@ def unpack_conversation(conversation):
                 my_conversation.append({
                 "sender": "BOT",
                 "message": remove_substring(line, "(BOT)")
-                })
-
-
-
+                })    
     return my_conversation
 
 def language_to_iso_tag(language_string):
@@ -134,14 +137,7 @@ def language_to_iso_tag(language_string):
         language_code = "fr_FR"
     elif language_string == "Portuguese":
         language_code = "pt_BR"
-    elif language_string == "Spanish":
-        language_code = "es_US"
-    elif language_string == "German":
-        language_code = "de"
-    elif language_string == "Marathi":
-        language_code = "mr"
-    elif language_string == "Chinese":
-        language_code = "zh_CN"
+
     return language_code
 
 @app.route("/userResponse", methods=['GET', 'POST'])
@@ -177,8 +173,9 @@ def endConversation():
 
         # text = gpt2.makeCall("gpt-4", speech)
         score = gpt.score()
-
-        db.addConversation(database, session["email"], speech, score, "English", 1, "Greetings")
+        topic = str(gpt2.makeCall("gpt-4", speech))
+        
+        db.addConversation(database, session["email"], speech, score, "English", 1,topic )
         print(db.fetchUserConversations(database, session["email"]))
 
     return render_template("chat2.html")
@@ -210,25 +207,16 @@ def callback2():
 def speech():
     if request.method == 'POST':
         # session['name'] = request.form['name']
-
-        global lang
+        
         lang = request.form.get("languageForm")
-        global lvl
         lvl = request.form.get("levelForm")
         caller.setLanguage(language_to_iso_tag(lang))
-        global gpt
         gpt = GPT(
             [{"role": "assistant", "content": "You are a coach helping a student learn a new language. Converse with "
                                               "them in " + lang + " in 1 sentence long responses. Tell the user when "
-                                                                  "they have incorrect grammar or wording (say what "
-                                                                  "they said wrong IN ENGLISH) and also tell them to"
-                                                                  "only speak in " + lang + " when they say something in "
-                                                                                            "a different language. "
-                                                                                            "When they say something "
-                                                                                            "wromng, tell them what "
-                                                                                            "they should have said "
-                                                                                            "instead."}])
-        global gpt2
+                                                                  "they say something incorrect and also tell them to "
+                                                                  "only speak in " + lang + " when they say somthing in "
+                                                                                            "a different language"}])
         gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, you have to give me a 1 word topic (no "
                                                "extra text) for"
                                                "the current topic in the conversation that it falls under. Choose "
@@ -238,36 +226,40 @@ def speech():
                                                "-Culture"}])
         print("Language: " + lang)
         print("Level: " + lvl)
-
+        
         return render_template("chat2.html", language=lang, level=lvl)
     else:
         return render_template("chat2.html", language="English", level="1")
 
 @app.route("/historyView",methods=['GET', 'POST'])
 def historyView():
-    # if (method == 'POST'):
-    id = "827861"
-    conversation = db.fetchConversationById(database, id)[0]
-    #print(conversation)
-    dialogue = conversation[2]
-    dialogue = unpack_conversation(dialogue)
-    tp = "Great Job!. Keep up the good work!"
-
-    score = conversation[3]
-
-    if (score < 90):
-        tp = "Great Work. Here is vocabulary word bank you can use to improve your score:"
-
-    score = str(score)
-
-    lang = conversation[5]
-    lvl = str(conversation[6])
-    tpc = conversation[7]
-
-
-    return render_template("history_view.html", convo=dialogue, grade=score, language=lang, level=lvl, topic=tpc, tip = tp, link="Google.com")
-
-    #return redirect("/speech")
+    if (request.method == 'POST'):
+        id = request.form.get("id")
+        conversation = db.fetchConversationById(database, id)[0]
+        #print(conversation)
+        dialogue = conversation[2]
+        dialogue = unpack_conversation(dialogue)
+        tp = "Great Job!. Keep up the good work!"
+    
+        score = conversation[3]
+        link = ""
+        if (score < 90):
+            tp = "Great Work. Here is vocabulary word bank you can use to improve your score:"
+            link=db.searchVocabulary(database, conversation[5], conversation[7])
+            
+    
+        score = str(score)
+    
+        lang = conversation[5]
+        lvl = str(conversation[6])
+        tpc = conversation[7]
+        
+        
+        
+    
+        return render_template("history_view.html", convo=dialogue, grade=score, language=lang, level=lvl, topic=tpc, tip = tp, link="Google.com")
+    
+    return redirect("/speech")
 
 @app.route("/callback")
 def callback():
@@ -304,13 +296,23 @@ def callback():
 def logout():
     session.clear()
     return redirect("/")
-#
+
 # @app.route('/')
 # def index():
 #     db = get_db()
 #     email = 'abidtalukder12@email.com'
 #     conversations = fetchUserConversations(db, email)
-#     return render_template('History.html', conversations=conversations)
+#     return render_template('Hisdetory.html', conversations=conversations)
+
+@app.route("/history", methods=['GET', 'POST'])
+def history():
+    conversations = db.fetchUserConversations(database, "abidtalukder12@gmail.com")
+    convos = (unpack_history(conversations))
+    return render_template("History.html", conversations=convos)
+    
+    
+
+
 
 
 if __name__ == "__main__":  # false if this file imported as module

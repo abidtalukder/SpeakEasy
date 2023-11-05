@@ -31,33 +31,60 @@
             <a href="#">SpeakEasy</a>
         </div>
         <nav>
-            <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">Stats</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
+          <ul>
+  
+  
+            <form action="/">
+              <form action="/history"</form>
+              <form action="/speech"</form>
+                
+            <li> <form action="/">
+              <input type="submit" class="" value="Home">
+            </form></li>
+           
+  
+            <li>
+              <form action="/history">
+                <input type="submit" class="" value="History">
+              </form>
+            </li>
+           
+            <li>
+              <form action="/Speech">
+                <input type="submit" class="" value="Speech">
+              </form>
+            </li>
+           
+            <form action="/Speech">
+              <input type="submit" class="" value="Speech">
+            </form>
+           
+            
+          </ul>
         </nav>
         <div class="signup">
             <a href="#">Sign Up</a>
         </div>
     </header>
-    {% for i in range(len(conversations) // 4) %}
+    {% for conversation in (conversations) %}
         <div class="row justify-content-center">
-            {% for j in range(4) %}
                 <div class="card" style="width: 18rem; margin: 1%">
                   <div class="card-body">
-                    <h5 class="card-title">{{ conversation[(4*i) + j].date }}</h5>
+                    <h5 class="card-title">{{ conversation.date }}</h5>
                       <div>
                           <div class="circle_enc justify-content-evenly" style="margin-left: 25%">
-                             <p style="position:relative; font-size: xx-large; top: 23px">{{ conversation[(4*i) + j].score }}</p>
+                             <p style="position:relative; font-size: xx-large; top: 23px">{{ conversation.score }}</p>
                           </div>
                       </div>
 
-                    <p class="card-text text-xxl-center">{{ conversation[(4*i) + j].lang }}</p>
-                    <a href="{{ conversation[(4*i) + j].link }}" class="btn btn-primary">View</a>
+                    <p class="card-text text-xxl-center">{{ conversation.lang }}</p>
+<!-- <p class="card-text text-xxl-center">{{ conversation.level }}</p> -->
+                    <form action="/historyView" method="POST">
+                      <input style="display: none;" type="text" name="id" value="{{conversation.id}}">
+                      <input class="btn btn-primary" type="submit" value="View" name="convo">
+                    </form>
                   </div>
                 </div>
-            {% endfor %}
         </div>
     {% endfor %}
         <div class="row justify-content-center">
@@ -78,5 +105,19 @@
             {% endfor %}
         </div>
 
+<<<<<<< HEAD
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+          </div>
+        </div>
+    </div>
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2023 SpeakEasy</p>
+      </div>
+    </footer>
+=======
+>>>>>>> 69ecca560544b75502698ffb93ad9f0b3179f39d
+>>>>>>> refs/remotes/origin/main
 </body>
 </html>

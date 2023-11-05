@@ -19,13 +19,20 @@ def createTables(db):
     
     c.execute("""CREATE TABLE IF NOT EXISTS conversations(email TEXT, id INTEGER, dialogue TEXT, grade INTEGER, datetime TEXT, language TEXT, level INTEGER, topic TEXT)""")
     c.execute("""CREATE TABLE IF NOT EXISTS vocabulary(language TEXT, topic TEXT, url TEXT)""")
+    populateVocabularyTable(db)
+    fetchAllVocabulary()
     
 def read_file_and_parse(filename):
     result = []
     with open(filename, 'r') as file:
         for line in file:
             # Split each line by the specified delimiter '~'
-            data = line.strip().split('~')
+            line.replace('\n', '')
+            data = line.split('*')
+            if data[0] == ['\n']:
+                continue
+            for (line) in data:
+                line.replace('\n', '')
             
             # Append the split data as a list to the result list
             result.append(data)
@@ -45,9 +52,10 @@ def populateVocabularyTable(db):
     result = c.fetchall()
     
     if (len(result) < 60):
-        vocabulary = read_file_and_parse("vocabulary.txt")
+        vocabulary = read_file_and_parse("LinkData.txt")
         
         for line in vocabulary:
+            #print(line)
             createVocabularyEntry(db, line[0], line[1], line[2])
 
 def searchVocabulary(db, lang, topic):
@@ -57,6 +65,13 @@ def searchVocabulary(db, lang, topic):
     result = c.fetchall()
     
     return result
+
+def fetchAllVocabulary():
+    db = get_db()
+    c = db.cursor()
+    c.execute("""SELECT * FROM vocabulary""")
+    result = c.fetchall()
+    print(result)
     
 
 def fetchUserConversations(db, email):
@@ -112,8 +127,9 @@ def convertStringToList(dialogue):
     
     return conversation
 
-# db = get_db()
-# createTables(db)
+db = get_db()
+createTables(db)
+#fetchAllVocabulary()
 
 # addConversation(db, "abidtalukder12@gmail.com", ["Hello", "How are you?"],80, "English", 1, "Greetings")
 
