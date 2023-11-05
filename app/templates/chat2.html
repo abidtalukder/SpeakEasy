@@ -37,6 +37,36 @@
     </div>
 </header>
     
+    <div class="text-black">
+        Language: {{ language }}
+        <br>
+        Level: {{ level }}
+    </div>
+    
+    <div class="dropdown">
+        <button id="language" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ language }}
+        </button>
+        <ul id="languageOptions" class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">English</a></li>
+          <li><a class="dropdown-item" href="#">Spanish</a></li>
+          <li><a class="dropdown-item" href="#">French</a></li>
+          <li><a class="dropdown-item" href="#">Hindi</a></li>
+          <li><a class="dropdown-item" href="#">Portuguese</a></li>
+        </ul>
+    </div>
+    
+    <div class="dropdown">
+        <button id="level" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ level }}
+        </button>
+        <ul id="levelOptions" class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">1</a></li>
+          <li><a class="dropdown-item" href="#">2</a></li>
+          <li><a class="dropdown-item" href="#">3</a></li>
+        </ul>
+    </div>
+    
     
     <!--  main content -->
     <section
@@ -52,7 +82,7 @@
           
         </div>
         <div class="col-md-6 col-lg-7 col-xl-7">
-            <form action="/" method="POST">
+            <form action="/speech" id="reload" method="POST">
                 <input
                   type="text"
                   name="speech"
@@ -60,9 +90,14 @@
                   value="Hello world"
                   style="display: none;"
                 />
-                <input class="btn btn-primary" type="submit" value="Speak" name="sub1" />
+                
+                <input style="display: none;" type="text" value="{{ language }}" name="languageForm" id="languageForm">
+                <input style="display: none;" type="text" value="{{ level }}" name="levelForm" id="levelForm">
+                
+                <!-- submiit button -->
+                <button style="display: none;" id="submitButton" class="btn btn-primary" type="submit" value="Speak" name="sub1"></button>
             </form>
-            
+            <button id="finishButton" class="btn btn-primary" type="submit" value="Speak" name="sub1">End Conversation</button>
             <button id="speakButton" class="btn btn-primary">Record Here</button>
         </div>
       </div>

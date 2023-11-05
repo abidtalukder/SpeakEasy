@@ -11,6 +11,7 @@ function updateText(val) {
 function createUserMessageElement(message) {
     // Create the elements
     const liElement = document.createElement('li');
+    liElement.id = 'userMessage';
     liElement.classList.add('d-flex', 'justify-content-between', 'mb-4');
 
     const divCard = document.createElement('div');
@@ -33,6 +34,7 @@ function createUserMessageElement(message) {
 
     const mainText = document.createElement('p');
     mainText.classList.add('mb-0');
+    mainText.id = 'message';
     mainText.textContent = message; // Replace the default text with the provided message
 
     const avatarImage = document.createElement('img');
@@ -57,6 +59,7 @@ function createUserMessageElement(message) {
 function createBotMessageElement(message) {
     // Create the new list item element
     var li = document.createElement('li');
+    li.id = 'botMessage';
     li.className = 'd-flex justify-content-between mb-4';
 
     // Create the image element
@@ -92,6 +95,7 @@ function createBotMessageElement(message) {
     // Create the paragraph inside the card body
     var bodyPara = document.createElement('p');
     bodyPara.className = 'mb-0';
+    bodyPara.id = 'message';
     bodyPara.textContent = message;
 
     // Construct the element hierarchy
@@ -116,7 +120,85 @@ function addUserMessage(message) {
     history.appendChild(createUserMessageElement(message));
 }
 
+function aggregateConversation() {
+    var history = document.getElementById('conversationHistory');
+    
+    var message = "Results: ";
+    
+    for (var i = 0; i < history.children.length; i++) {
+        var child = history.children[i];
+        if (child.id == 'userMessage') {
+            var messageElement = child.querySelector('.card-body p#message');
+            //var userMessage = child.getElementById('message').textContent;
+            message += messageElement.innerHTML + "(USER)" + "~";
+            //console.log(userMessage);
+        } else if (child.id == 'botMessage') {
+            var messageElement = listItem.querySelector('.card-body p#message');
+            // var botMessage = child.getElementsByTagName('p').textContent;
+            message += messageElement.innerHTML + "(BOT)" + "~";
+            //console.log(botMessage);
+        }
+    }
+    
+    return message;
+
+}
+
+
+function refreshPage() {
+    languageForm = document.getElementById("languageForm");
+    levelForm = document.getElementById("levelForm");
+    
+    level = document.getElementById("level").innerHTML;
+    language = document.getElementById("language").innerHTML;
+    //console.log("LEVEL:" + level);
+    //console.log("LANGUAGE:" + language)
+    
+    languageForm.value = language;
+    levelForm.value = level;
+    
+    form = document.getElementById("reload");
+    form.submit();
+}
 // Replace the existing element with the newly created one
+
+function updateLevels() {
+    levelDropdown = document.getElementById('level');
+    const languageOptions = document.getElementById('levelOptions');
+    if (languageOptions) {
+      // Get all li elements inside the ul
+      const liElements = languageOptions.getElementsByTagName('li');
+      // Add an event listener to each li element
+      for (let i = 0; i < liElements.length; i++) {
+        liElements[i].addEventListener('click', function(event) {
+          // Do something when an li element is clicked
+          aElement = liElements[i].getElementsByTagName('a')[0];
+          levelDropdown.innerHTML = aElement.innerHTML;
+          refreshPage();
+          // Add your logic for handling the click event here
+        });
+      }
+    }
+}
+
+function updateLanguages() {
+    languageDropdown = document.getElementById('language');
+    const languageOptions = document.getElementById('languageOptions');
+    if (languageOptions) {
+      // Get all li elements inside the ul
+      const liElements = languageOptions.getElementsByTagName('li');
+      // Add an event listener to each li element
+      for (let i = 0; i < liElements.length; i++) {
+        liElements[i].addEventListener('click', function(event) {
+          // Do something when an li element is clicked
+          aElement = liElements[i].getElementsByTagName('a')[0];
+          languageDropdown.innerHTML = aElement.innerHTML;
+          refreshPage();
+          // Add your logic for handling the click event here
+        });
+      }
+    }
+}
 
   function getGPTResponse() {
     $.ajax({
@@ -155,5 +237,29 @@ function addUserMessage(message) {
     });
   }
   
+  function endConversation() {
+    $(document).on("click", "#finishButton", function (e) {
+        message = aggregateConversation();
+        console.log("end conversation");
+        // e.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "/endConversation",
+          data: {
+            speech: message,
+            language: $("#language").val(),
+            level: $("#level").val(),
+          },
+          success: function () {
+            form = document.getElementById("reload");
+            form.submit();
+          },
+        });
+      });
+  }
+  
   recordConversation();
+  endConversation();
+  updateLanguages();
+  updateLevels();
 //   addUserMessage("Hello, I am your SpeakEasy Companion. How can I help you today?");

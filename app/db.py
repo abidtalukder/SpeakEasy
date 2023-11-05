@@ -45,7 +45,7 @@ def validId(db, id):
 
 def addConversation(db, email, dialogue, grade, language, level, topic):
     c = db.cursor()
-    dialogue = convertListToString(dialogue)
+    #dialogue = convertListToString(dialogue)
     
     date = datetime.datetime.now()
     

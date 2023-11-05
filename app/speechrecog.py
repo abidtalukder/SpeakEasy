@@ -2,6 +2,9 @@ import time
 
 import pkgs_edited.speech_recognition as sr
 
+recognizer = sr.Recognizer()
+microphone = sr.Microphone(1)
+
 
 class LangRecog:
     def callback(self, recog, audio):
@@ -25,10 +28,8 @@ class LangRecog:
         self.time = None
 
     def listen_and_transcribe(self):
-        recognizer = sr.Recognizer()
-        microphone = sr.Microphone(0)
+
         with microphone as source:
-            recognizer.adjust_for_ambient_noise(source, 1)
             print("Listening for speech in other languages...")
         self.time = time.time()
         stop_listening = recognizer.listen_in_background(source=source, callback=self.callback, phrase_time_limit=30)
@@ -45,9 +46,13 @@ class LangRecog:
         splitted_string = self.text.split(" ")
         return float(len(splitted_string)) / self.time
 
+    def adjust(self):
+        with microphone as source:
+            recognizer.adjust_for_ambient_noise(source=source)
+
 
 def hi():
-    l = LangRecog("es_US")
+    l = LangRecog("en_US")
     l.listen_and_transcribe()
     return
 

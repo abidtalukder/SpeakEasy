@@ -11,7 +11,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"
     />
-    <title>Title</title>
+    <title>Chat History</title>
 </head>
 <style>
     .circle_enc {
@@ -25,6 +25,7 @@
         background-image: none
     }
 </style>
+<<<<<<< HEAD
 
 
 
@@ -56,46 +57,62 @@
                      <p style="position:relative; font-size: xx-large; top: 23px">57</p>
                   </div>
               </div>
-
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
+=======
+<body>
+    <header style="background-color: #cccccc">
+        <div class="logo">
+            <a href="#">SpeakEasy</a>
         </div>
-        <div class="card" style="width: 18rem; margin: 1%">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-              <div>
-                  <div class="circle_enc justify-content-evenly" style="margin-left: 25%">
-                     <p style="position:relative; font-size: xx-large; top: 23px">57</p>
-                  </div>
-              </div>
-
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Stats</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </nav>
+        <div class="signup">
+            <a href="#">Sign Up</a>
         </div>
-        <div class="card" style="width: 18rem; margin: 1%">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-              <div>
-                  <div class="circle_enc justify-content-evenly" style="margin-left: 25%">
-                     <p style="position:relative; font-size: xx-large; top: 23px">57</p>
-                  </div>
-              </div>
+    </header>
+    {% for i in range(len(conversations) // 4) %}
+        <div class="row justify-content-center">
+            {% for j in range(4) %}
+                <div class="card" style="width: 18rem; margin: 1%">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ conversation[(4*i) + j].date }}</h5>
+                      <div>
+                          <div class="circle_enc justify-content-evenly" style="margin-left: 25%">
+                             <p style="position:relative; font-size: xx-large; top: 23px">{{ conversation[(4*i) + j].score }}</p>
+                          </div>
+                      </div>
+>>>>>>> 69ecca560544b75502698ffb93ad9f0b3179f39d
 
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
-          </div>
+                    <p class="card-text text-xxl-center">{{ conversation[(4*i) + j].lang }}</p>
+                    <a href="{{ conversation[(4*i) + j].link }}" class="btn btn-primary">View</a>
+                  </div>
+                </div>
+            {% endfor %}
         </div>
-        <div class="card" style="width: 18rem; margin: 1%">
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-              <div>
-                  <div class="circle_enc justify-content-evenly" style="margin-left: 25%">
-                     <p style="position:relative; font-size: xx-large; top: 23px">57</p>
-                  </div>
-              </div>
+    {% endfor %}
+        <div class="row justify-content-center">
+            {% for j in range(len(conversations) - (len(conversations) // 4)) %}
+                <div class="card" style="width: 18rem; margin: 1%">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ conversation[len(conversations)-j].date }}</h5>
+                      <div>
+                          <div class="circle_enc justify-content-evenly" style="margin-left: 25%">
+                             <p style="position:relative; font-size: xx-large; top: 23px">{{ conversation[len(conversations)-j].score }}</p>
+                          </div>
+                      </div>
 
+                    <p class="card-text text-xxl-center">{{ conversation[len(conversations)-j].lang }}</p>
+                    <a href="{{ conversation[len(conversations)-j].link }}" class="btn btn-primary">View</a>
+                  </div>
+                </div>
+            {% endfor %}
+        </div>
+
+<<<<<<< HEAD
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
             <a href="#" class="btn btn-primary">Go somewhere</a>
           </div>
@@ -106,5 +123,7 @@
         <p>&copy; 2023 SpeakEasy</p>
       </div>
     </footer>
+=======
+>>>>>>> 69ecca560544b75502698ffb93ad9f0b3179f39d
 </body>
 </html>

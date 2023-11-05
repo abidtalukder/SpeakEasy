@@ -1,55 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
     <link rel="stylesheet" href="../static/css/style.css" />
-    <title>Title</title>
-</head>
-<style>
-  .gradient-custom {
-/* fallback for old browsers */
-    background: #fccb90;
+    <!-- <script src="../static/js/script.js"></script> -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap"
+    />
 
-    /* Chrome 10-25, Safari 5.1 6 */
-    background: -webkit-linear-gradient(to bottom right, rgb(255, 255, 255), rgb(255, 255, 255));
+    <script
+        src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous"
+    ></script>
 
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to bottom right, rgb(255, 255, 255), rgb(255, 255, 255))
-    }
+    <title>Chat</title>
+  </head>
+  <body style="background-image: none;">
+    <header style="background-color: lightblue;">
+      <div class="">
+        <!-- <img src="/resources/logo.png">Your Logo</a> -->
+      </div>
+      <nav>
+        <ul>
+          <li><a href="../../pages">Home</a></li>
+          <li><a href="#info">About</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="#login">Dashboard</a></li>
+        </ul>
+      </nav>
+      <div class="signup">
+        <a href="/signup">Sign Up</a>
+      </div>
+    </header>
 
-  .mask-custom {
-    background: rgba(0, 118, 255, 0.45);
-    border-radius: 2em;
-    backdrop-filter: blur(15px);
-    border: 2px solid rgba(255, 255, 255, 0.05);
-    background-clip: padding-box;
-    box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
-  }
-</style>
 
-<header>
-  <div class="">
-    <a href="/resources/logo.png">Your Logo</a>
-  </div>
-  <nav>
-    <ul>
-      <li><a href="../../pages">Home</a></li>
-      <li><a href="#info">About</a></li>
-      <li><a href="#contact">Contact Us</a></li>
-      <li><a href="#login">Dashboard</a></li>
-    </ul>
-  </nav>
-  <div class="signup">
-    <a href="/signup">Sign Up</a>
-  </div>
-</header>
+    <!--  main content -->
+    <section
+      class="gradient-custom h-100"
+      style="position: relative; left: 250px">
 
-<body class="custom -body">
- 
-    <section class="gradient-custom h-100" style="position:relative; left:250px">
-      <div class="container py-5">
+      </div>
+        <div class="container py-5">
         <div class="col-md-6 col-lg-7 col-xl-7">
             <ul class="list-unstyled text-white">
               <li class="d-flex justify-content-between mb-4">
@@ -103,19 +100,21 @@
                   </div>
                 </div>
               </li>
-              <button type="button" class="btn btn-light btn-lg btn-rounded float-end">Send</button>
             </ul>
 
           </div>
 
         </div>
-        
-
     </section>
-</body>
-<footer>
-  <div class="footer-content">
-    <p>&copy; 2023 SpeakEasy</p>
-  </div>
-</footer>
+
+
+    <footer>
+      <div class="footer-content">
+        <p>&copy; 2023 SpeakEasy</p>
+      </div>
+    </footer>
+  </body>
+
+  <script src="../static/js/converse.js"></script>
+
 </html>

@@ -1,4 +1,12 @@
+import re
+
 import openai
+
+
+def remove_non_digits(input_string):
+    # Use a regular expression to find all non-digit characters and remove them
+    result_string = re.sub(r'[^0-9]', '', input_string)
+    return result_string
 
 
 class GPT:
@@ -27,7 +35,7 @@ class GPT:
     def score(self):
         self.messages.append(
             {"role": "user", "content": "Respond to this only in a single number, no extra text: Grade this "
-                                        "conversation out of 100 in the user's fluency with this language"},
+                                        "conversation out of 100 in the user's fluency with this language. be harsh!"},
         )
         chat = openai.chat.completions.create(
             model="gpt-4", messages=self.messages
@@ -42,6 +50,10 @@ def hi():
     g = GPT([{"role": "system", "content": "You are a intelligent assistant."}])
     while True:
         hello = input("User: ")
+        if (hello == "q"):
+            print(int(g.score()))
+            exit(0)
         g.makeCall("gpt-4", hello)
+
 
 # hi()
