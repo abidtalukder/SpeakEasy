@@ -7,7 +7,7 @@ import os
 import datetime
 import random
 import string
-import GPTCall as gpt
+from GPTCall import GPT
 import db
 
 from google.oauth2 import id_token
@@ -17,6 +17,7 @@ import google.auth.transport.requests
 #import speechrecog as recorder
 
 app = Flask(__name__)
+
 app.secret_key = "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"
 
 
