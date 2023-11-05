@@ -39,6 +39,36 @@
       </div>
     </header>
     
+    <div class="text-black">
+        Language: {{ language }}
+        <br>
+        Level: {{ level }}
+    </div>
+    
+    <div class="dropdown">
+        <button id="language" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ language }}
+        </button>
+        <ul id="languageOptions" class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">English</a></li>
+          <li><a class="dropdown-item" href="#">Spanish</a></li>
+          <li><a class="dropdown-item" href="#">French</a></li>
+          <li><a class="dropdown-item" href="#">Hindi</a></li>
+          <li><a class="dropdown-item" href="#">Portuguese</a></li>
+        </ul>
+    </div>
+    
+    <div class="dropdown">
+        <button id="level" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          {{ level }}
+        </button>
+        <ul id="levelOptions" class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">1</a></li>
+          <li><a class="dropdown-item" href="#">2</a></li>
+          <li><a class="dropdown-item" href="#">3</a></li>
+        </ul>
+    </div>
+    
     
     <!--  main content -->
     <section
@@ -62,6 +92,10 @@
                   value="Hello world"
                   style="display: none;"
                 />
+                
+                <input type="hidden" value="{{ language }}" name="language" id="languageForm">
+                <input type="hidden" value="{{ level }}" name="level" id="levelForm">
+                
                 <!-- submiit button -->
                 <button style="display: none;" id="submitButton" class="btn btn-primary" type="submit" value="Speak" name="sub1"></button>
             </form>

@@ -106,7 +106,9 @@ def endConversation():
         # print(speech + " END CONVERSATION")
 
         # text = gpt2.makeCall("gpt-4", speech)
-        db.addConversation(database, session["email"], speech, 80, "English", 1, "Greetings")
+        score = gpt.score()
+        
+        db.addConversation(database, session["email"], speech, score, "English", 1, "Greetings")
         print(db.fetchUserConversations(database, session["email"]))
 
     return render_template("chat2.html")
@@ -138,9 +140,16 @@ def callback2():
 def speech():
     if request.method == 'POST':
         # session['name'] = request.form['name']
-        return render_template("chat2.html")
+        
+        lang = request.form.get("languageForm")
+        lvl = request.form.get("levelForm")
+        
+        print("Language: " + lang)
+        print("Level: " + lvl)
+        
+        return render_template("chat2.html", language=lang, level=lvl)
     else:
-        return render_template("chat2.html")
+        return render_template("chat2.html", language="English", level="1")
 
 
 @app.route("/callback")

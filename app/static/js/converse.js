@@ -145,8 +145,56 @@ function aggregateConversation() {
 }
 
 
-
+function refreshPage() {
+    languageForm = document.getElementById("languageForm");
+    levelForm = document.getElementById("levelForm");
+    
+    level = document.getElementById("level").value;
+    language = document.getElementById("language").value;
+    
+    languageForm.value = language;
+    levelForm.value = level;
+    
+    form = document.getElementById("reload");
+    form.submit();
+}
 // Replace the existing element with the newly created one
+
+function updateLevels() {
+    languageDropdown = document.getElementById('level');
+    const languageOptions = document.getElementById('levelOptions');
+    if (languageOptions) {
+      // Get all li elements inside the ul
+      const liElements = languageOptions.getElementsByTagName('li');
+      // Add an event listener to each li element
+      for (let i = 0; i < liElements.length; i++) {
+        liElements[i].addEventListener('click', function(event) {
+          // Do something when an li element is clicked
+          languageDropdown.innerHTML = liElements[i].innerHTML;
+        refreshPage();
+          // Add your logic for handling the click event here
+        });
+      }
+    }
+}
+
+function updateLanguages() {
+    languageDropdown = document.getElementById('language');
+    const languageOptions = document.getElementById('languageOptions');
+    if (languageOptions) {
+      // Get all li elements inside the ul
+      const liElements = languageOptions.getElementsByTagName('li');
+      // Add an event listener to each li element
+      for (let i = 0; i < liElements.length; i++) {
+        liElements[i].addEventListener('click', function(event) {
+          // Do something when an li element is clicked
+          languageDropdown.innerHTML = liElements[i].innerHTML;
+        refreshPage();
+          // Add your logic for handling the click event here
+        });
+      }
+    }
+}
 
   function getGPTResponse() {
     $.ajax({
@@ -195,6 +243,8 @@ function aggregateConversation() {
           url: "/endConversation",
           data: {
             speech: message,
+            language: $("#language").val(),
+            level: $("#level").val(),
           },
           success: function () {
             form = document.getElementById("reload");
@@ -206,4 +256,6 @@ function aggregateConversation() {
   
   recordConversation();
   endConversation();
+  updateLanguages();
+  updateLevels();
 //   addUserMessage("Hello, I am your SpeakEasy Companion. How can I help you today?");
