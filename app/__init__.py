@@ -185,7 +185,7 @@ def endConversation():
 def index():
     # return render_template("index.html")
     session["email"] = "abidtalukder12@gmail.com"
-    return redirect("/speech")
+    return render_template("index.html")
 
 
 @app.route("/login")
