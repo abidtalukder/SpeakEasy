@@ -15,7 +15,8 @@ from google.oauth2 import id_token
 from google_auth_oauthlib.flow import Flow
 from pip._vendor import cachecontrol
 import google.auth.transport.requests
-#import speechrecog as recorder
+
+# import speechrecog as recorder
 
 app = Flask(__name__)
 
@@ -24,20 +25,20 @@ app.secret_key = "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"
 database = db.get_db()
 db.createTables(database)
 
-
-os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for local dev
+os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"  # to allow Http traffic for local dev
 
 GOOGLE_CLIENT_ID = "116824999490-2v8691iltgn318dsmeugp7gbhi21s4ha.apps.googleusercontent.com"
 client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "client_secret.json")
 
 flow = Flow.from_client_secrets_file(
     client_secrets_file=client_secrets_file,
-    scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
+    scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email",
+            "openid"],
     redirect_uri="http://localhost/callback"
 )
 
-caller = recorder.LangRecog("en_US")
-lang = "English"
+caller = recorder.LangRecog("es_US")
+lang = "Spanish"
 gpt = GPT([{"role": "assistant", "content": "You are a coach helping a student learn a new language. Converse with "
                                             "them in " + lang + " in 1 sentence long responses. Tell the user when "
                                                                 "they say something incorrect and also tell them to "
@@ -66,9 +67,9 @@ gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, yo
 #         language = request.form.get("language")
 #         level = request.form.get("level")
 #         topic = request.form.get("topic")
-        
+
 #         db.addConversation(db.get_db(), email, dialogue, grade, language, level, topic)
-        
+
 #         return redirect("/conversations")
 #     else:
 #         return render_template("addConversation.html")
@@ -76,37 +77,40 @@ gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, yo
 @app.route("/userResponse", methods=['GET', 'POST'])
 def userResponse():
     speech, time = caller.listen_and_transcribe()
-    
-    if (speech == ""):
+
+    if speech == "":
         return "None"
-    
-    #gpt.makeCall("gpt-4", speech)
-    #gpt2.makeCall("gpt-4", speech)
+
+    # gpt.makeCall("gpt-4", speech)
+    # gpt2.makeCall("gpt-4", speech)
     return speech
+
 
 @app.route("/gptResponse", methods=['GET', 'POST'])
 def gptResponse():
     if request.method == 'POST':
         speech = request.form.get("speech")
-        #print(speech + " GPT RESPONSE")
-        
+        # print(speech + " GPT RESPONSE")
+
         text = gpt.makeCall("gpt-4", speech)
-        
+
         return text
     else:
         return "Internal Server Error"
-        
+
+
 @app.route("/endConversation", methods=['GET', 'POST'])
 def endConversation():
     if (request.method == 'POST'):
         speech = request.form.get("speech")
-        #print(speech + " END CONVERSATION")
-        
-        #text = gpt2.makeCall("gpt-4", speech)
-        db.addConversation(database, session["email"], speech,80, "English", 1, "Greetings")
+        # print(speech + " END CONVERSATION")
+
+        # text = gpt2.makeCall("gpt-4", speech)
+        db.addConversation(database, session["email"], speech, 80, "English", 1, "Greetings")
         print(db.fetchUserConversations(database, session["email"]))
-        
+
     return render_template("chat2.html")
+
 
 @app.route("/", methods=['GET', 'POST'])  # At the root, we just return the homepage
 def index():
@@ -114,29 +118,31 @@ def index():
     session["email"] = "abidtalukder12@gmail.com"
     return redirect("/speech")
 
+
 @app.route("/login")
 def login():
     authorization_url, state = flow.authorization_url()
     session["state"] = state
     return redirect(authorization_url)
 
+
 @app.route("/callback2", methods=['GET', 'POST'])
 def callback2():
-    
     session['name'] = "Abid Talukder"
     session["google_id"] = "abidtalukder12@gmail.com"
-    
+
     return render_template("speech.html", name=session['name'])
+
 
 @app.route("/speech", methods=['GET', 'POST'])
 def speech():
     if request.method == 'POST':
-        #session['name'] = request.form['name']
+        # session['name'] = request.form['name']
         return render_template("chat2.html")
     else:
         return render_template("chat2.html")
-    
-    
+
+
 @app.route("/callback")
 def callback():
     flow.fetch_token(authorization_response=request.url)
@@ -167,12 +173,11 @@ def callback():
 #         return render_template("speech.html", name=session['name'])
 #     else:
 #         return render_template("login.html")
-    
+
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
     session.clear()
     return redirect("/")
-
 
 
 if __name__ == "__main__":  # false if this file imported as module
