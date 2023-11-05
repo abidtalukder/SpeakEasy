@@ -54,7 +54,7 @@
           
         </div>
         <div class="col-md-6 col-lg-7 col-xl-7">
-            <form action="/" method="POST">
+            <form action="/speech" id="reload" method="POST">
                 <input
                   type="text"
                   name="speech"
@@ -62,9 +62,10 @@
                   value="Hello world"
                   style="display: none;"
                 />
-                <input class="btn btn-primary" type="submit" value="Speak" name="sub1" />
+                <!-- submiit button -->
+                <button style="display: none;" id="submitButton" class="btn btn-primary" type="submit" value="Speak" name="sub1"></button>
             </form>
-            
+            <button id="finishButton" class="btn btn-primary" type="submit" value="Speak" name="sub1">End Conversation</button>
             <button id="speakButton" class="btn btn-primary">Record Here</button>
         </div>
       </div>

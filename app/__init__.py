@@ -21,6 +21,9 @@ app = Flask(__name__)
 
 app.secret_key = "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"
 
+database = db.get_db()
+db.createTables(database)
+
 
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1" # to allow Http traffic for local dev
 
@@ -93,11 +96,22 @@ def gptResponse():
     else:
         return "Internal Server Error"
         
-    
+@app.route("/endConversation", methods=['GET', 'POST'])
+def endConversation():
+    if (request.method == 'POST'):
+        speech = request.form.get("speech")
+        #print(speech + " END CONVERSATION")
+        
+        #text = gpt2.makeCall("gpt-4", speech)
+        db.addConversation(database, session["email"], speech,80, "English", 1, "Greetings")
+        print(db.fetchUserConversations(database, session["email"]))
+        
+    return render_template("chat2.html")
 
 @app.route("/", methods=['GET', 'POST'])  # At the root, we just return the homepage
 def index():
     # return render_template("index.html")
+    session["email"] = "abidtalukder12@gmail.com"
     return redirect("/speech")
 
 @app.route("/login")
@@ -117,7 +131,7 @@ def callback2():
 @app.route("/speech", methods=['GET', 'POST'])
 def speech():
     if request.method == 'POST':
-        session['name'] = request.form['name']
+        #session['name'] = request.form['name']
         return render_template("chat2.html")
     else:
         return render_template("chat2.html")

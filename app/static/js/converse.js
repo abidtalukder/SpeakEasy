@@ -11,6 +11,7 @@ function updateText(val) {
 function createUserMessageElement(message) {
     // Create the elements
     const liElement = document.createElement('li');
+    liElement.id = 'userMessage';
     liElement.classList.add('d-flex', 'justify-content-between', 'mb-4');
 
     const divCard = document.createElement('div');
@@ -33,6 +34,7 @@ function createUserMessageElement(message) {
 
     const mainText = document.createElement('p');
     mainText.classList.add('mb-0');
+    mainText.id = 'message';
     mainText.textContent = message; // Replace the default text with the provided message
 
     const avatarImage = document.createElement('img');
@@ -57,6 +59,7 @@ function createUserMessageElement(message) {
 function createBotMessageElement(message) {
     // Create the new list item element
     var li = document.createElement('li');
+    li.id = 'botMessage';
     li.className = 'd-flex justify-content-between mb-4';
 
     // Create the image element
@@ -92,6 +95,7 @@ function createBotMessageElement(message) {
     // Create the paragraph inside the card body
     var bodyPara = document.createElement('p');
     bodyPara.className = 'mb-0';
+    bodyPara.id = 'message';
     bodyPara.textContent = message;
 
     // Construct the element hierarchy
@@ -115,6 +119,32 @@ function addUserMessage(message) {
     var history = document.getElementById('conversationHistory');
     history.appendChild(createUserMessageElement(message));
 }
+
+function aggregateConversation() {
+    var history = document.getElementById('conversationHistory');
+    
+    var message = "Results: ";
+    
+    for (var i = 0; i < history.children.length; i++) {
+        var child = history.children[i];
+        if (child.id == 'userMessage') {
+            var messageElement = child.querySelector('.card-body p#message');
+            //var userMessage = child.getElementById('message').textContent;
+            message += messageElement.innerHTML + "(USER)" + "~";
+            //console.log(userMessage);
+        } else if (child.id == 'botMessage') {
+            var messageElement = listItem.querySelector('.card-body p#message');
+            // var botMessage = child.getElementsByTagName('p').textContent;
+            message += messageElement.innerHTML + "(BOT)" + "~";
+            //console.log(botMessage);
+        }
+    }
+    
+    return message;
+
+}
+
+
 
 // Replace the existing element with the newly created one
 
@@ -155,5 +185,25 @@ function addUserMessage(message) {
     });
   }
   
+  function endConversation() {
+    $(document).on("click", "#finishButton", function (e) {
+        message = aggregateConversation();
+        console.log("end conversation");
+        // e.preventDefault();
+        $.ajax({
+          type: "POST",
+          url: "/endConversation",
+          data: {
+            speech: message,
+          },
+          success: function () {
+            form = document.getElementById("reload");
+            form.submit();
+          },
+        });
+      });
+  }
+  
   recordConversation();
+  endConversation();
 //   addUserMessage("Hello, I am your SpeakEasy Companion. How can I help you today?");
