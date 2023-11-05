@@ -137,7 +137,14 @@ def language_to_iso_tag(language_string):
         language_code = "fr_FR"
     elif language_string == "Portuguese":
         language_code = "pt_BR"
-
+    elif language_string == "Spanish":
+        language_code = "es_US"
+    elif language_string == "German":
+        language_code = "de"
+    elif language_string == "Marathi":
+        language_code = "mr"
+    elif language_string == "Chinese":
+        language_code = "zh_CN"
     return language_code
 
 @app.route("/userResponse", methods=['GET', 'POST'])

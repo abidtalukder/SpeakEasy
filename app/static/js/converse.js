@@ -1,3 +1,4 @@
+
 function updateText(val) {
     if (val == "Sorry, I didn't get that. Please record again.") {
         document.getElementById("speakButton").innerHTML = val;   
@@ -7,7 +8,50 @@ function updateText(val) {
 }
     
   // creating message elements
+function TTS(text, lang) {
 
+    if(text === " "){
+        return;
+    }
+    let speech = new SpeechSynthesisUtterance();
+    speech.lang = lang;
+    speech.text = text;
+    speech.rate = 1;
+    speech.pitch = 0.8;
+    let voices = []; // global array
+
+      // Get List of Voices
+
+
+    speech.voice = speechSynthesis
+  .getVoices()
+  .find(voice => voice.lang.startsWith(lang))
+    window.speechSynthesis.speak(speech)
+
+}
+function languageToIsoTag(languageString) {
+  let languageCode = "";
+
+  if (languageString.includes("English")) {
+    languageCode = "en-US";
+  } else if (languageString.includes("Hindi")) {
+    languageCode = "hi-IN";
+  } else if (languageString.includes("French")) {
+    languageCode = "fr-FR";
+  } else if (languageString.includes("Portuguese")) {
+    languageCode = "pt-BR";
+  } else if (languageString.includes("Spanish")) {
+    languageCode = "es-US";
+  } else if (languageString.includes("German")) {
+      languageCode = "de"
+  } else if (languageString.includes("Marathi")) {
+      languageCode = "mr"
+  } else if (languageString.includes("Chinese")) {
+      languageCode = "zh_CN"
+  }
+  console.log(languageCode)
+  return languageCode;
+}
 function createUserMessageElement(message) {
     // Create the elements
     const liElement = document.createElement('li');
@@ -106,7 +150,8 @@ function createBotMessageElement(message) {
     cardDiv.appendChild(cardBody);
     li.appendChild(img);
     li.appendChild(cardDiv);
-
+    languageDropdown = document.getElementById('language').innerHTML;
+    TTS(message, languageToIsoTag(languageDropdown));
     return li;
 }
 
