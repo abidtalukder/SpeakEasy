@@ -3,6 +3,12 @@ import re
 import openai
 
 
+def remove_non_digits(input_string):
+    # Use a regular expression to find all non-digit characters and remove them
+    result_string = re.sub(r'[^0-9]', '', input_string)
+    return result_string
+
+
 class GPT:
     def __init__(self, init_message):
         with open("API_KEY.txt") as mytxt:
@@ -38,11 +44,6 @@ class GPT:
         print(f"ChatGPT: {reply}")
         self.messages.append({"role": "assistant", "content": reply})
         return int(reply)
-
-    def remove_non_digits(input_string):
-        # Use a regular expression to find all non-digit characters and remove them
-        result_string = re.sub(r'[^0-9]', '', input_string)
-        return result_string
 
 
 def hi():
