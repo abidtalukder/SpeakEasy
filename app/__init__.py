@@ -55,15 +55,25 @@ gpt2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, yo
 def userResponse():
     speech, time = caller.listen_and_transcribe()
     
-    if (speech == None):
+    if (speech == ""):
         return "None"
     
-    text = "GPT RESPONSE" #gpt.makeCall("gpt-4", speech)
+    #gpt.makeCall("gpt-4", speech)
     #gpt2.makeCall("gpt-4", speech)
     return speech
 
 @app.route("/gptResponse", methods=['GET', 'POST'])
 def gptResponse():
+    if request.method == 'POST':
+        speech = request.form.get("speech")
+        #print(speech + " GPT RESPONSE")
+        
+        text = gpt.makeCall("gpt-4", speech)
+        
+        return text
+    else:
+        return "Internal Server Error"
+        
     
 
 @app.route("/", methods=['GET', 'POST'])  # At the root, we just return the homepage

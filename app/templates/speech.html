@@ -14,12 +14,32 @@
  
 
 <form action = "/" method = "POST">
+    <input type="text" name = "speech" id="latestUserSpeech" value="Hello world" display="hidden">
     <input type="submit" value="Record Voice" name="sub1">
 </form>
 
 <script type="text/javascript">
     function updateText(val) {
         document.getElementById('convo').innerHTML = val;
+        document.getElementById('latestUserSpeech').value = val;
+    }
+    
+    function getGPTResponse() {
+        $.ajax({
+            type:'POST',
+            url:'/gptResponse',
+            data: {
+                speech:$("#latestUserSpeech").val()
+            },
+            success:function(response)
+            {
+                if (response != "None") {
+                    updateText("GPT: " + response);
+                } else {
+                    updateText("Sorry, I didn't get that. Please record again.");
+                }
+            }
+        })
     }
     
     $(document).on('click','#speech',function(e)
@@ -28,10 +48,15 @@
       e.preventDefault();
       $.ajax({
         type:'POST',
-        url:'/gptResponse',
+        url:'/userResponse',
         success:function(response)
         {
-          updateText(response["user"])
+          if (response != "None") {
+            updateText(response);
+            getGPTResponse();
+          } else {
+            updateText("Sorry, I didn't get that. Please record again.");
+          }
         }
       })
     });
