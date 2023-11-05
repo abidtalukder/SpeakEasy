@@ -2,11 +2,21 @@ import re
 
 import openai
 
+element_list = {"Introductions", "Travel", "Food", "Shopping", "Family", "Hobbies", "Routine", "Health", "Work",
+                "Culture"}
+
 
 def remove_non_digits(input_string):
     # Use a regular expression to find all non-digit characters and remove them
     result_string = re.sub(r'[^0-9]', '', input_string)
     return result_string
+
+
+def find_matching_element(input_string):
+    for element in element_list:
+        if element in input_string:
+            return element
+    return None
 
 
 class GPT:
@@ -26,7 +36,6 @@ class GPT:
                 model=model, messages=self.messages
             )
             reply = chat.choices[0].message.content
-            print(f"ChatGPT: {reply}")
             self.messages.append({"role": "assistant", "content": reply})
             return reply
         else:
@@ -41,19 +50,28 @@ class GPT:
             model="gpt-4", messages=self.messages
         )
         reply = chat.choices[0].message.content
-        print(f"ChatGPT: {reply}")
         self.messages.append({"role": "assistant", "content": reply})
         return int(reply)
 
 
 def hi():
     g = GPT([{"role": "system", "content": "You are a intelligent assistant."}])
+    g2 = GPT([{"role": "assistant", "content": "Every time we input a sentence, you have to give me a 1 word topic (no "
+                                               "extra text) for"
+                                               "the current topic in the conversation that it falls under. Choose "
+                                               "from the following:"
+                                               "-Introductions -Travel -Food -Shopping -Family -Hobbies -Routine "
+                                               "-Health -Work"
+                                               "-Culture"}])
+    bro = ""
+
     while True:
         hello = input("User: ")
         if (hello == "q"):
-            print(int(g.score()))
+            print(bro)
             exit(0)
-        g.makeCall("gpt-4", hello)
+        print("ChatGPT: " + g.makeCall("gpt-4", hello))
+        bro = g2.makeCall("gpt-4", hello)
 
 
 # hi()
